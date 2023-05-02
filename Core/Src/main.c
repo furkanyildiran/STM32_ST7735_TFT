@@ -100,10 +100,27 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, 1);
-	  HAL_Delay(1000);
-	  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, 0);
-	  HAL_Delay(1000);
+	  ST7735_TFT_setWindow(0, 127, 0, 79);
+	  ST7735_TFT_fillScreen(RED);
+	  HAL_Delay(300);
+	  ST7735_TFT_setWindow(0, 127, 80, 159);
+	  ST7735_TFT_fillScreen(GREEN);
+	  HAL_Delay(300);
+	  ST7735_TFT_setWindow(0, 127, 0, 79);
+	  ST7735_TFT_fillScreen(YELLOW);
+	  HAL_Delay(300);
+	  ST7735_TFT_setWindow(0, 127, 80, 159);
+	  ST7735_TFT_fillScreen(ORANGE);
+	  HAL_Delay(300);
+	  ST7735_TFT_setWindow(0, 127, 0, 79);
+	  ST7735_TFT_fillScreen(BLUE);
+	  HAL_Delay(300);
+	  ST7735_TFT_setWindow(0, 127, 80, 159);
+	  ST7735_TFT_fillScreen(WHITE);
+	  HAL_Delay(300);
+	  ST7735_TFT_setWindow(0, 127, 0, 79);
+	  ST7735_TFT_fillScreen(BLACK);
+
   }
   /* USER CODE END 3 */
 }
@@ -120,13 +137,12 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-  RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI_DIV2;
+  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL16;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -198,21 +214,20 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOC_CLK_ENABLE();
-  __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : LED_Pin */
-  GPIO_InitStruct.Pin = LED_Pin;
+  /*Configure GPIO pin : PC13 */
+  GPIO_InitStruct.Pin = GPIO_PIN_13;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(LED_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PA1 PA2 PA3 */
   GPIO_InitStruct.Pin = GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3;

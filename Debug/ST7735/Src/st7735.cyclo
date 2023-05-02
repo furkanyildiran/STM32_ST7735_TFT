@@ -1,3 +1,8 @@
-st7735.c:63:13:send_byte	1
-st7735.c:56:13:send_command	1
-st7735.c:9:6:ST7735_TFT_init	3
+st7735.c:87:13:send_byte	1
+st7735.c:81:13:send_command	1
+st7735.c:35:6:ST7735_TFT_setXBoundary	1
+st7735.c:44:6:ST7735_TFT_setYBoundary	1
+st7735.c:53:6:ST7735_TFT_setWindow	1
+st7735.c:58:6:ST7735_TFT_setColorMod	1
+st7735.c:22:6:ST7735_TFT_init	1
+st7735.c:63:6:ST7735_TFT_fillScreen	2

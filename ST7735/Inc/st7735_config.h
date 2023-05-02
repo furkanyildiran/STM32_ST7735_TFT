@@ -8,9 +8,9 @@ extern "C"{
 #define CS_PORT		GPIOA
 #define DC_PORT		GPIOA
 #define RST_PORT	GPIOA
-#define CS		2
-#define DC		1
-#define RST		3
+#define CS		 	2
+#define DC		 	1
+#define RST		 	3
 
 #endif/*__ST7735_CONFIG_H__*/
 #ifdef __cplusplus
