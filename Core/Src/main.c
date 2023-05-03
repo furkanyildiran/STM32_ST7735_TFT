@@ -91,6 +91,12 @@ int main(void)
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
   ST7735_TFT_init(&hspi1);
+  ST7735_TFT_fillScreen(BLUE);
+  for(uint8_t i = 0; i < 16; i++){
+	  if(i*8 > 120)	  ST7735_TFT_writeA(i, i*8, 1);
+	  else ST7735_TFT_writeA(i, i*8, 0);
+  }
+  while(1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -120,6 +126,7 @@ int main(void)
 	  HAL_Delay(300);
 	  ST7735_TFT_setWindow(0, 127, 0, 79);
 	  ST7735_TFT_fillScreen(BLACK);
+	  HAL_Delay(300);
 
   }
   /* USER CODE END 3 */
