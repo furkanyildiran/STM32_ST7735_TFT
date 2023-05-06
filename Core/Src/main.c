@@ -92,10 +92,23 @@ int main(void)
   /* USER CODE BEGIN 2 */
   ST7735_TFT_init(&hspi1);
   ST7735_TFT_fillScreen(BLUE);
+
+  char buff[16]={' ','!','"','#','$','%','&','\'','{','}','*','+',',','-','.','/'};
+
   for(uint8_t i = 0; i < 16; i++){
-	  if(i*8 > 120)	  ST7735_TFT_writeA(i, i*8, 1);
-	  else ST7735_TFT_writeA(i, i*8, 0);
+	  ST7735_TFT_writeChar(buff[i], i*8, 0, BLACK, WHITE);
   }
+
+  for(uint8_t i = 0; i < 16; i++){
+  ST7735_TFT_writeChar(buff[i], i*8, 10, YELLOW, BLUE);
+  }
+  HAL_Delay(1000);
+  ST7735_TFT_writeString("merhaba ben furkan yildiran c", 0, 20, YELLOW, BLUE);
+  ST7735_TFT_writeString("Bu bir DENEMEDIR", 0, 40, YELLOW, BLUE);
+  ST7735_TFT_writeString("furkanyldrn0@gmail.com", 0, 50, RED, WHITE);
+
+
+
   while(1);
   /* USER CODE END 2 */
 
