@@ -19,10 +19,11 @@ void ST7735_TFT_setXBoundary(uint8_t x_start, uint8_t x_end);
 void ST7735_TFT_setYBoundary(uint8_t y_start, uint8_t y_end);
 void ST7735_TFT_setWindow(uint8_t x_start, uint8_t x_end, uint8_t y_start, uint8_t y_end);
 void ST7735_TFT_setColorMod(COLMOD_arg_t colmod);
+void ST7735_TFT_setOrientation(Orientation_t orientation);
 void ST7735_TFT_fillScreen(Colors_t color);
-void ST7735_TFT_writeText(uint8_t x, uint8_t y, Colors_t text_color, Colors_t background);
-void ST7735_TFT_writeChar(char ch, uint8_t x, uint8_t y, Colors_t charColor, Colors_t backgroundColor);
-void ST7735_TFT_writeString(char text[], uint8_t x, uint8_t y, Colors_t charColor, Colors_t backgroundColor);
+void ST7735_TFT_writeChar(char ch, uint8_t x_addr, uint8_t y_addr, Colors_t charColor, Colors_t backgroundColor);
+void ST7735_TFT_writeString(char text[], uint8_t x_addr, uint8_t y_addr, Colors_t charColor, Colors_t backgroundColor);
+void ST7735_TFT_Paint(uint8_t x_start, uint8_t x_end, uint8_t y_start, uint8_t y_end, Colors_t color);
 #endif/*__ST7735_H__*/
 #ifdef __cplusplus
 }

@@ -88,6 +88,12 @@ typedef enum{
 	ORANGE = 64512
 }Colors_t;
 
+/*Orientation*/
+typedef enum{
+	LANDSCAPE,
+	VERTICAL
+}Orientation_t;
+
 #endif/*__ST7735_MNEMONICS_H__*/
 #ifdef __cplusplus
 }

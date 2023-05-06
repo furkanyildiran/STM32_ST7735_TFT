@@ -92,6 +92,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   ST7735_TFT_init(&hspi1);
   ST7735_TFT_fillScreen(BLUE);
+  ST7735_TFT_setOrientation(LANDSCAPE);
 
   char buff[16]={' ','!','"','#','$','%','&','\'','{','}','*','+',',','-','.','/'};
 
@@ -105,7 +106,14 @@ int main(void)
   HAL_Delay(1000);
   ST7735_TFT_writeString("merhaba ben furkan yildiran c", 0, 20, YELLOW, BLUE);
   ST7735_TFT_writeString("Bu bir DENEMEDIR", 0, 40, YELLOW, BLUE);
+  ST7735_TFT_Paint(0, 159, 50, 127, WHITE);
   ST7735_TFT_writeString("furkanyldrn0@gmail.com", 0, 50, RED, WHITE);
+  ST7735_TFT_writeString("this place is white!! but text color is red", 0, 60, RED, WHITE);
+  ST7735_TFT_setOrientation(VERTICAL);
+  HAL_Delay(2000);
+  ST7735_TFT_Paint(0, 127, 0, 80, BLACK);
+  ST7735_TFT_writeString("merhaba ben furkan yildiran c", 0, 20, YELLOW, BLUE);
+
 
 
 
