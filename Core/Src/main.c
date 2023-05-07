@@ -91,30 +91,47 @@ int main(void)
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
   ST7735_TFT_init(&hspi1);
-  ST7735_TFT_fillScreen(BLUE);
-  char *buff = "Merhaba ben Furkan YILDIRAN";
+  ST7735_TFT_setOrientation(LANDSCAPE);
+  char *strings[9]={
+		  "ST7735 TFT",
+		  "Screen Library",
+		  "Author : ",
+		  "Furkan YILDIRAN",
+		  "      GITHUB",
+		  "username:",
+		  "furkanyildiran",
+		  "repository:",
+		  "STM32_ST7735_TFT"
+  };
 
-  while(1){
-	  ST7735_TFT_fillScreen(BLUE);
-	  ST7735_TFT_setOrientation(VERTICAL);
-	  ST7735_TFT_writeString(buff, 0, 50, YELLOW, BLUE);
-	  HAL_Delay(3000);
-
-	  ST7735_TFT_fillScreen(BLACK);
-	  ST7735_TFT_setOrientation(LANDSCAPE);
-	  ST7735_TFT_writeString(buff, 0, 50, WHITE, BLACK);
-	  HAL_Delay(3000);
-
-	  ST7735_TFT_fillScreen(ORANGE);
-	  ST7735_TFT_setOrientation(TURN180_DEGREES);
-	  ST7735_TFT_writeString(buff, 0, 50, RED, ORANGE);
-	  HAL_Delay(3000);
-
-	  ST7735_TFT_fillScreen(GREEN);
-	  ST7735_TFT_setOrientation(TURN270_DEGREES);
-	  ST7735_TFT_writeString(buff, 0, 50, BLACK, GREEN);
-	  HAL_Delay(3000);
+  char *orientationStrings[4]={
+		  "Vertical",
+		  "180 deg. turned",
+		  "Landscape",
+		  "270 deg. turned",
+  };
+  for(uint8_t i = 0, j = 0; i < 80; i+=2, j++, HAL_Delay(100)){
+	  if(j%2)ST7735_TFT_Paint(i, ST7735_TFT_DEFAULT_YMAX_ADDR-i, i, ST7735_TFT_DEFAULT_XMAX_ADDR-i, YELLOW);
+	  else ST7735_TFT_Paint(i, ST7735_TFT_DEFAULT_YMAX_ADDR-i, i, ST7735_TFT_DEFAULT_XMAX_ADDR-i, RED);
   }
+
+  ST7735_TFT_fillScreen(BLUE);
+  for(uint8_t line = 5, i = 0; i < 9; line+=10, i++){
+	  ST7735_TFT_writeString(strings[i], 5, line, YELLOW, BLUE);
+  }
+
+  HAL_Delay(5000);
+
+  for(uint8_t i = 0; i <= TURN270_DEGREES; i++, HAL_Delay(1500)){
+	  ST7735_TFT_fillScreen(BLACK);
+	  ST7735_TFT_setOrientation(i);
+	  ST7735_TFT_writeString(orientationStrings[i], 5, 50, WHITE, BLACK);
+  }
+
+  ST7735_TFT_setOrientation(LANDSCAPE);
+  ST7735_TFT_fillScreen(BLUE);
+  ST7735_TFT_writeString("HELLO WORLD!!", 5, 5, YELLOW, BLUE);
+
 
   /* USER CODE END 2 */
 
@@ -125,27 +142,6 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  ST7735_TFT_setWindow(0, 127, 0, 79);
-	  ST7735_TFT_fillScreen(RED);
-	  HAL_Delay(300);
-	  ST7735_TFT_setWindow(0, 127, 80, 159);
-	  ST7735_TFT_fillScreen(GREEN);
-	  HAL_Delay(300);
-	  ST7735_TFT_setWindow(0, 127, 0, 79);
-	  ST7735_TFT_fillScreen(YELLOW);
-	  HAL_Delay(300);
-	  ST7735_TFT_setWindow(0, 127, 80, 159);
-	  ST7735_TFT_fillScreen(ORANGE);
-	  HAL_Delay(300);
-	  ST7735_TFT_setWindow(0, 127, 0, 79);
-	  ST7735_TFT_fillScreen(BLUE);
-	  HAL_Delay(300);
-	  ST7735_TFT_setWindow(0, 127, 80, 159);
-	  ST7735_TFT_fillScreen(WHITE);
-	  HAL_Delay(300);
-	  ST7735_TFT_setWindow(0, 127, 0, 79);
-	  ST7735_TFT_fillScreen(BLACK);
-	  HAL_Delay(300);
 
   }
   /* USER CODE END 3 */

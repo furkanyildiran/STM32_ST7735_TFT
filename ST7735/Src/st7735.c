@@ -105,7 +105,7 @@ static uint8_t arr[96][8]={
 		{0x00,0x00,0x62,0xB2,0x9A,0x8C,0x00,0x00}//~
 };
 
-union{
+static union{
 	struct{
 		uint8_t :8;
 		uint8_t start;
@@ -115,13 +115,13 @@ union{
 	uint8_t reg_val[4];
 }WindowX={.start=0, .end=ST7735_TFT_DEFAULT_XMAX_ADDR}, WindowY={.start=0, .end=ST7735_TFT_DEFAULT_YMAX_ADDR};
 
-struct{
+static struct{
 	uint8_t height;
 	uint8_t width;
 	uint8_t orienation;
 }Screen={.height=ST7735_TFT_HEIGHT, .width = ST7735_TFT_WIDTH, .orienation = VERTICAL};
 
-union{
+static union{
 	struct{
 		uint8_t:1;
 		uint8_t:1;
@@ -134,8 +134,6 @@ union{
 	}bits;
 	uint8_t reg_val;
 }Madctl={.reg_val=0};
-
-
 
 void ST7735_TFT_init(SPI_HandleTypeDef *hspi_ptr){
 	spi_ptr = hspi_ptr;
@@ -212,13 +210,14 @@ void ST7735_TFT_setOrientation(Orientation_t orientation){
 void ST7735_TFT_Paint(uint8_t x_start, uint8_t x_end, uint8_t y_start, uint8_t y_end, Colors_t color){
 	ST7735_TFT_setWindow(x_start, x_end, y_start, y_end);
 	send_command(RAMWR);
-		uint8_t buff[2]={(color>>8), color&0xFF};
-		RST_PIN(CS_PORT, CS);
-		for(uint16_t i = 0; i < ((x_end-x_start)+1)*((y_end-y_start)+1); i++){
-			send_data(buff, 2);
-		}
-		SET_PIN(CS_PORT, CS);
+	uint8_t buff[2]={(color>>8), color&0xFF};
+	RST_PIN(CS_PORT, CS);
+	for(uint16_t i = 0; i < ((x_end-x_start)+1)*((y_end-y_start)+1); i++){
+		send_data(buff, 2);
+	}
+	SET_PIN(CS_PORT, CS);
 }
+
 void ST7735_TFT_fillScreen(Colors_t color){
 	ST7735_TFT_setWindow(0, Screen.width, 0, Screen.height);
 	send_command(RAMWR);
