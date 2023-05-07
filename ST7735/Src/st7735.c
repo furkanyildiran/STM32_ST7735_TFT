@@ -7,38 +7,6 @@ static void send_data(uint8_t buff[], uint16_t size);
 static void send_pixelVal(Colors_t color);
 static SPI_HandleTypeDef *spi_ptr;
 
-typedef union{
-	struct{
-		uint8_t :8;
-		uint8_t start;
-		uint8_t :8;
-		uint8_t end;
-	};
-	uint8_t reg_val[4];
-}Window_t;
-
-struct{
-	uint8_t height;
-	uint8_t width;
-	uint8_t orienation;
-}Screen_t={.height=ST7735_TFT_HEIGHT, .width = ST7735_TFT_WIDTH, .orienation = VERTICAL};
-
-union{
-	struct{
-		uint8_t:1;
-		uint8_t:1;
-		uint8_t MH:1;
-		uint8_t RGB:1;
-		uint8_t ML:1;
-		uint8_t MV:1;
-		uint8_t MX:1;
-		uint8_t MY:1;
-	}MADCTL_val_t;
-	uint8_t reg_val;
-}MADCTL_val_u={.reg_val=0};
-
-static Window_t x={.start=0, .end=ST7735_TFT_DEFAULT_XMAX_ADDR}, y={.start=0, .end=ST7735_TFT_DEFAULT_YMAX_ADDR};
-
 static uint8_t arr[96][8]={
 		{0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},//space
 		{0x18,0x18,0x18,0x18,0x18,0x18,0x00,0x18},//!
@@ -97,7 +65,7 @@ static uint8_t arr[96][8]={
 		{0x82,0x82,0xC6,0xC6,0x6C,0x7C,0x38,0x10},//V
 		{0xC6,0xC6,0xD6,0xD6,0xD6,0xD6,0xFE,0x7C},//W
 		{0x82,0xC6,0x6C,0x38,0x38,0x6C,0xC6,0x82},//X
-		{0x82,0xC6,0x6C,0x38,0x10,0x10,0x10,0x10},//Y
+		{0x84,0xCC,0x48,0x78,0x30,0x30,0x30,0x30},//Y
 		{0xFE,0x06,0x0C,0x18,0x30,0x60,0xC0,0xFE},//Z
 		{0x3C,0x30,0x30,0x30,0x30,0x30,0x30,0x3C},//[
 		{0x80,0xC0,0x60,0x30,0x18,0x0C,0x06,0x02},//\.
@@ -137,6 +105,38 @@ static uint8_t arr[96][8]={
 		{0x00,0x00,0x62,0xB2,0x9A,0x8C,0x00,0x00}//~
 };
 
+union{
+	struct{
+		uint8_t :8;
+		uint8_t start;
+		uint8_t :8;
+		uint8_t end;
+	};
+	uint8_t reg_val[4];
+}WindowX={.start=0, .end=ST7735_TFT_DEFAULT_XMAX_ADDR}, WindowY={.start=0, .end=ST7735_TFT_DEFAULT_YMAX_ADDR};
+
+struct{
+	uint8_t height;
+	uint8_t width;
+	uint8_t orienation;
+}Screen={.height=ST7735_TFT_HEIGHT, .width = ST7735_TFT_WIDTH, .orienation = VERTICAL};
+
+union{
+	struct{
+		uint8_t:1;
+		uint8_t:1;
+		uint8_t MH:1;
+		uint8_t RGB:1;
+		uint8_t ML:1;
+		uint8_t MV:1;
+		uint8_t MX:1;
+		uint8_t MY:1;
+	}bits;
+	uint8_t reg_val;
+}Madctl={.reg_val=0};
+
+
+
 void ST7735_TFT_init(SPI_HandleTypeDef *hspi_ptr){
 	spi_ptr = hspi_ptr;
 	SET_PIN(CS_PORT,CS);
@@ -147,24 +147,24 @@ void ST7735_TFT_init(SPI_HandleTypeDef *hspi_ptr){
 	send_command(DISPON);
 	HAL_Delay(300);
 	ST7735_TFT_setColorMod(BitPerPixel_16);
-	ST7735_TFT_setWindow(x.start, x.end, y.start, y.end);
+	ST7735_TFT_setWindow(WindowX.start, WindowX.end, WindowY.start, WindowY.end);
 }
 
 void ST7735_TFT_setXBoundary(uint8_t x_start, uint8_t x_end){
-	x.start = x_start;
-	x.end = x_end;
+	WindowX.start = x_start;
+	WindowX.end = x_end;
 	send_command(CASET);
 	RST_PIN(CS_PORT, CS);
-	send_data(x.reg_val, 4);
+	send_data(WindowX.reg_val, 4);
 	SET_PIN(CS_PORT, CS);
 }
 
 void ST7735_TFT_setYBoundary(uint8_t y_start, uint8_t y_end){
-	y.start = y_start;
-	y.end = y_end;
+	WindowY.start = y_start;
+	WindowY.end = y_end;
 	send_command(RASET);
 	RST_PIN(CS_PORT, CS);
-	send_data(y.reg_val, 4);
+	send_data(WindowY.reg_val, 4);
 	SET_PIN(CS_PORT, CS);
 }
 
@@ -179,20 +179,34 @@ void ST7735_TFT_setColorMod(COLMOD_arg_t colmod){
 }
 
 void ST7735_TFT_setOrientation(Orientation_t orientation){
-	if(orientation == LANDSCAPE){
-		MADCTL_val_u.MADCTL_val_t.MV=1;
-		MADCTL_val_u.MADCTL_val_t.MX=1;
-		Screen_t.orienation=LANDSCAPE;
-		Screen_t.width=160;
-		Screen_t.height=128;
-	}else{
-		MADCTL_val_u.reg_val=0;
-		Screen_t.orienation=LANDSCAPE;
-		Screen_t.width=128;
-		Screen_t.height=160;
+	Madctl.reg_val=0;
+	Screen.orienation = orientation;
+	switch(orientation){
+	case TURN180_DEGREES:
+		Madctl.bits.MX = 1;
+		Madctl.bits.MY = 1;
+		Screen.height = ST7735_TFT_HEIGHT;
+		Screen.width = ST7735_TFT_WIDTH;
+		break;
+	case VERTICAL:
+		Screen.height = ST7735_TFT_HEIGHT;
+		Screen.width = ST7735_TFT_WIDTH;
+		break;
+	case LANDSCAPE:
+		Screen.height = ST7735_TFT_WIDTH;
+		Screen.width = ST7735_TFT_HEIGHT;
+		Madctl.bits.MV = 1;
+		Madctl.bits.MX = 1;
+		break;
+	case TURN270_DEGREES:
+		Screen.height = ST7735_TFT_WIDTH;
+		Screen.width = ST7735_TFT_HEIGHT;
+		Madctl.bits.MV = 1;
+		Madctl.bits.MY = 1;
+		break;
 	}
 	send_command(MADCTL);
-	send_byte(MADCTL_val_u.reg_val);
+	send_byte(Madctl.reg_val);
 }
 
 void ST7735_TFT_Paint(uint8_t x_start, uint8_t x_end, uint8_t y_start, uint8_t y_end, Colors_t color){
@@ -206,7 +220,7 @@ void ST7735_TFT_Paint(uint8_t x_start, uint8_t x_end, uint8_t y_start, uint8_t y
 		SET_PIN(CS_PORT, CS);
 }
 void ST7735_TFT_fillScreen(Colors_t color){
-	ST7735_TFT_setWindow(0, ST7735_TFT_DEFAULT_XMAX_ADDR, 0, ST7735_TFT_DEFAULT_YMAX_ADDR);
+	ST7735_TFT_setWindow(0, Screen.width, 0, Screen.height);
 	send_command(RAMWR);
 	uint8_t buff[2]={(color>>8), color&0xFF};
 	RST_PIN(CS_PORT, CS);
@@ -232,9 +246,9 @@ void ST7735_TFT_writeChar(char ch, uint8_t x_addr, uint8_t y_addr, Colors_t char
 
 void ST7735_TFT_writeString(char text[], uint8_t x_addr, uint8_t y_addr, Colors_t charColor, Colors_t backgroundColor){
 	for(uint8_t i = 0; text[i] != '\0'; i++, x_addr+=8){
-		if((x_addr+8)>Screen_t.width){
-			y_addr+=9;
-			x_addr=0;
+		if((x_addr + 8) > (Screen.width)){
+			y_addr += 9;
+			x_addr = 0;
 		}
 		ST7735_TFT_writeChar(text[i], x_addr, y_addr, charColor, backgroundColor);
 	}

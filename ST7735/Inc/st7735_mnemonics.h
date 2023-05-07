@@ -90,9 +90,13 @@ typedef enum{
 
 /*Orientation*/
 typedef enum{
+	VERTICAL,
+	TURN180_DEGREES,
 	LANDSCAPE,
-	VERTICAL
+	TURN270_DEGREES,
 }Orientation_t;
+
+
 
 #endif/*__ST7735_MNEMONICS_H__*/
 #ifdef __cplusplus
