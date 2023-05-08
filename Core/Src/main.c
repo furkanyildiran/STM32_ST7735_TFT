@@ -114,7 +114,15 @@ int main(void)
 	  if(j%2)ST7735_TFT_Paint(i, ST7735_TFT_DEFAULT_YMAX_ADDR-i, i, ST7735_TFT_DEFAULT_XMAX_ADDR-i, YELLOW);
 	  else ST7735_TFT_Paint(i, ST7735_TFT_DEFAULT_YMAX_ADDR-i, i, ST7735_TFT_DEFAULT_XMAX_ADDR-i, RED);
   }
-
+  HAL_Delay(3000);;
+  ST7735_TFT_fillScreen(BLUE);
+  while(1){
+	 ST7735_TFT_setGammaCurve(GammaCurve1);
+	 HAL_Delay(1000);
+	 ST7735_TFT_setGammaCurve(GammaCurve4);
+	 HAL_Delay(1000);
+  }
+  /*
   ST7735_TFT_fillScreen(BLUE);
   for(uint8_t line = 5, i = 0; i < 9; line+=10, i++){
 	  ST7735_TFT_writeString(strings[i], 5, line, YELLOW, BLUE);
@@ -131,7 +139,7 @@ int main(void)
   ST7735_TFT_setOrientation(LANDSCAPE);
   ST7735_TFT_fillScreen(BLUE);
   ST7735_TFT_writeString("HELLO WORLD!!", 5, 5, YELLOW, BLUE);
-
+*/
 
   /* USER CODE END 2 */
 

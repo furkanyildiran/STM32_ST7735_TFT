@@ -50,8 +50,9 @@ extern "C"{
 typedef enum{
 	GammaCurveDefault = 1,
 	GammaCurve1 = 1,
-	GammaCurve2 = 4,
-	GammaCurve3 = 8
+	GammaCurve2 = 2,
+	GammaCurve3 = 4,
+	GammaCurve4 = 8
 }GAMSET_arg_t;
 
 /*MADCTL commad arguments*/

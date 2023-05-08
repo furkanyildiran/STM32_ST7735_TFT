@@ -24,6 +24,12 @@ void ST7735_TFT_fillScreen(Colors_t color);
 void ST7735_TFT_writeChar(char ch, uint8_t x_addr, uint8_t y_addr, Colors_t charColor, Colors_t backgroundColor);
 void ST7735_TFT_writeString(char text[], uint8_t x_addr, uint8_t y_addr, Colors_t charColor, Colors_t backgroundColor);
 void ST7735_TFT_Paint(uint8_t x_start, uint8_t x_end, uint8_t y_start, uint8_t y_end, Colors_t color);
+void ST7735_TFT_Sleep(void);
+void ST7735_TFT_GetUp(void);
+void ST7735_TFT_DisplayInv(void);
+void ST7735_TFT_DisplayNonInv(void);
+void ST7735_TFT_setGammaCurve(GAMSET_arg_t gamma_curve);
+
 #endif/*__ST7735_H__*/
 #ifdef __cplusplus
 }

@@ -1,7 +1,7 @@
-st7735.c:269:13:send_byte	1
-st7735.c:263:13:send_command	1
-st7735.c:275:13:send_data	1
-st7735.c:279:13:send_pixelVal	1
+st7735.c:290:13:send_byte	1
+st7735.c:284:13:send_command	1
+st7735.c:296:13:send_data	1
+st7735.c:300:13:send_pixelVal	1
 st7735.c:151:6:ST7735_TFT_setXBoundary	1
 st7735.c:160:6:ST7735_TFT_setYBoundary	1
 st7735.c:169:6:ST7735_TFT_setWindow	1
@@ -9,6 +9,11 @@ st7735.c:174:6:ST7735_TFT_setColorMod	1
 st7735.c:138:6:ST7735_TFT_init	1
 st7735.c:179:6:ST7735_TFT_setOrientation	5
 st7735.c:210:6:ST7735_TFT_Paint	2
-st7735.c:221:6:ST7735_TFT_fillScreen	2
-st7735.c:232:6:ST7735_TFT_writeChar	4
-st7735.c:246:6:ST7735_TFT_writeString	3
+st7735.c:221:6:ST7735_TFT_Sleep	1
+st7735.c:225:6:ST7735_TFT_GetUp	1
+st7735.c:229:6:ST7735_TFT_DisplayInv	1
+st7735.c:233:6:ST7735_TFT_DisplayNonInv	1
+st7735.c:237:6:ST7735_TFT_setGammaCurve	1
+st7735.c:242:6:ST7735_TFT_fillScreen	2
+st7735.c:253:6:ST7735_TFT_writeChar	4
+st7735.c:267:6:ST7735_TFT_writeString	3
