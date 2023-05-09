@@ -3,7 +3,6 @@ extern "C"{
 #endif
 #ifndef __ST7735_MNEMONICS_H__
 #define __ST7735_MNEMONICS_H__
-#include "stm32f1xx_hal.h"
 
 #define ST7735_TFT_WIDTH				128
 #define ST7735_TFT_HEIGHT				160
@@ -86,7 +85,10 @@ typedef enum{
 	GREEN = 2016,
 	BLUE = 31,
 	YELLOW = 65504,
-	ORANGE = 64512
+	ORANGE = 64512,
+	MAGENTA = 63519,
+	PURPLE = 30735,
+	PURPLE2 = 32784
 }Colors_t;
 
 /*Orientation*/
@@ -97,7 +99,20 @@ typedef enum{
 	TURN270_DEGREES,
 }Orientation_t;
 
+typedef enum{
+	SLEEP_OUT = SLPOUT,
+	SLEEP_IN = SLPIN
+}DisplaySleepSetting_t;
 
+typedef enum{
+	DISPLAY_ON = DISPON,
+	DISPLAY_OFF = DISPOFF
+}DisplayOnOff_t;
+
+typedef enum{
+	INVERT = INVON,
+	NON_INVERT = INVOFF
+}DisplayInvertSetting_t;
 
 #endif/*__ST7735_MNEMONICS_H__*/
 #ifdef __cplusplus

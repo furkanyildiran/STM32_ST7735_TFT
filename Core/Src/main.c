@@ -92,54 +92,6 @@ int main(void)
   /* USER CODE BEGIN 2 */
   ST7735_TFT_init(&hspi1);
   ST7735_TFT_setOrientation(LANDSCAPE);
-  char *strings[9]={
-		  "ST7735 TFT",
-		  "Screen Library",
-		  "Author : ",
-		  "Furkan YILDIRAN",
-		  "      GITHUB",
-		  "username:",
-		  "furkanyildiran",
-		  "repository:",
-		  "STM32_ST7735_TFT"
-  };
-
-  char *orientationStrings[4]={
-		  "Vertical",
-		  "180 deg. turned",
-		  "Landscape",
-		  "270 deg. turned",
-  };
-  for(uint8_t i = 0, j = 0; i < 80; i+=2, j++, HAL_Delay(100)){
-	  if(j%2)ST7735_TFT_Paint(i, ST7735_TFT_DEFAULT_YMAX_ADDR-i, i, ST7735_TFT_DEFAULT_XMAX_ADDR-i, YELLOW);
-	  else ST7735_TFT_Paint(i, ST7735_TFT_DEFAULT_YMAX_ADDR-i, i, ST7735_TFT_DEFAULT_XMAX_ADDR-i, RED);
-  }
-  HAL_Delay(3000);;
-  ST7735_TFT_fillScreen(BLUE);
-  while(1){
-	 ST7735_TFT_setGammaCurve(GammaCurve1);
-	 HAL_Delay(1000);
-	 ST7735_TFT_setGammaCurve(GammaCurve4);
-	 HAL_Delay(1000);
-  }
-  /*
-  ST7735_TFT_fillScreen(BLUE);
-  for(uint8_t line = 5, i = 0; i < 9; line+=10, i++){
-	  ST7735_TFT_writeString(strings[i], 5, line, YELLOW, BLUE);
-  }
-
-  HAL_Delay(5000);
-
-  for(uint8_t i = 0; i <= TURN270_DEGREES; i++, HAL_Delay(1500)){
-	  ST7735_TFT_fillScreen(BLACK);
-	  ST7735_TFT_setOrientation(i);
-	  ST7735_TFT_writeString(orientationStrings[i], 5, 50, WHITE, BLACK);
-  }
-
-  ST7735_TFT_setOrientation(LANDSCAPE);
-  ST7735_TFT_fillScreen(BLUE);
-  ST7735_TFT_writeString("HELLO WORLD!!", 5, 5, YELLOW, BLUE);
-*/
 
   /* USER CODE END 2 */
 

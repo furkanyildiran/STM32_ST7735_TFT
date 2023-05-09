@@ -5,6 +5,7 @@ static void send_command(uint8_t cmd);
 static void send_byte(uint8_t byte);
 static void send_data(uint8_t buff[], uint16_t size);
 static void send_pixelVal(Colors_t color);
+static void setGammaCurve(GAMSET_arg_t gamma_curve);
 static SPI_HandleTypeDef *spi_ptr;
 
 static uint8_t arr[96][8]={
@@ -119,7 +120,7 @@ static struct{
 	uint8_t height;
 	uint8_t width;
 	uint8_t orienation;
-}Screen={.height=ST7735_TFT_HEIGHT, .width = ST7735_TFT_WIDTH, .orienation = VERTICAL};
+}Screen={.height = ST7735_TFT_HEIGHT, .width = ST7735_TFT_WIDTH, .orienation = VERTICAL};
 
 static union{
 	struct{
@@ -141,8 +142,8 @@ void ST7735_TFT_init(SPI_HandleTypeDef *hspi_ptr){
 	SET_PIN(RST_PORT,RST);
 	SET_PIN(DC_PORT,DC);
 	resetHW();
-	send_command(SLPOUT);
-	send_command(DISPON);
+	ST7735_TFT_Sleep(SLEEP_OUT);
+	ST7735_TFT_OnOff(DISPLAY_ON);
 	HAL_Delay(300);
 	ST7735_TFT_setColorMod(BitPerPixel_16);
 	ST7735_TFT_setWindow(WindowX.start, WindowX.end, WindowY.start, WindowY.end);
@@ -179,6 +180,7 @@ void ST7735_TFT_setColorMod(COLMOD_arg_t colmod){
 void ST7735_TFT_setOrientation(Orientation_t orientation){
 	Madctl.reg_val=0;
 	Screen.orienation = orientation;
+
 	switch(orientation){
 	case TURN180_DEGREES:
 		Madctl.bits.MX = 1;
@@ -218,25 +220,16 @@ void ST7735_TFT_Paint(uint8_t x_start, uint8_t x_end, uint8_t y_start, uint8_t y
 	SET_PIN(CS_PORT, CS);
 }
 
-void ST7735_TFT_Sleep(void){
-	send_command(SLPIN);
+void ST7735_TFT_Sleep(DisplaySleepSetting_t setting){
+	send_command(setting);
 }
 
-void ST7735_TFT_GetUp(void){
-	send_command(SLPOUT);
+void ST7735_TFT_Invert(DisplayInvertSetting_t setting){
+	send_command(setting);
 }
 
-void ST7735_TFT_DisplayInv(void){
-	send_command(INVON);
-}
-
-void ST7735_TFT_DisplayNonInv(void){
-	send_command(INVOFF);
-}
-
-void ST7735_TFT_setGammaCurve(GAMSET_arg_t gamma_curve){
-	send_command(GAMSET);
-	send_byte(gamma_curve);
+void ST7735_TFT_OnOff(DisplayOnOff_t status){
+	send_command(status);
 }
 
 void ST7735_TFT_fillScreen(Colors_t color){
@@ -272,6 +265,11 @@ void ST7735_TFT_writeString(char text[], uint8_t x_addr, uint8_t y_addr, Colors_
 		}
 		ST7735_TFT_writeChar(text[i], x_addr, y_addr, charColor, backgroundColor);
 	}
+}
+
+__attribute__((unused)) static void setGammaCurve(GAMSET_arg_t gamma_curve){
+	send_command(GAMSET);
+	send_byte(gamma_curve);
 }
 
 __attribute__((always_inline)) static inline void resetHW(void){

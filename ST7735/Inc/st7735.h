@@ -3,7 +3,6 @@ extern "C"{
 #endif
 #ifndef __ST7735_H__
 #define __ST7735_H__
-#include "stm32f1xx_hal.h"
 #include "st7735_config.h"
 #include "st7735_mnemonics.h"
 
@@ -24,11 +23,10 @@ void ST7735_TFT_fillScreen(Colors_t color);
 void ST7735_TFT_writeChar(char ch, uint8_t x_addr, uint8_t y_addr, Colors_t charColor, Colors_t backgroundColor);
 void ST7735_TFT_writeString(char text[], uint8_t x_addr, uint8_t y_addr, Colors_t charColor, Colors_t backgroundColor);
 void ST7735_TFT_Paint(uint8_t x_start, uint8_t x_end, uint8_t y_start, uint8_t y_end, Colors_t color);
-void ST7735_TFT_Sleep(void);
-void ST7735_TFT_GetUp(void);
-void ST7735_TFT_DisplayInv(void);
-void ST7735_TFT_DisplayNonInv(void);
-void ST7735_TFT_setGammaCurve(GAMSET_arg_t gamma_curve);
+void ST7735_TFT_Sleep(DisplaySleepSetting_t setting);
+void ST7735_TFT_Invert(DisplayInvertSetting_t setting);
+void ST7735_TFT_OnOff(DisplayOnOff_t status);
+
 
 #endif/*__ST7735_H__*/
 #ifdef __cplusplus
