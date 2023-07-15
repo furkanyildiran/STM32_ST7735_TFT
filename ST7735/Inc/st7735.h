@@ -5,6 +5,8 @@ extern "C"{
 #define __ST7735_H__
 #include "st7735_config.h"
 #include "st7735_mnemonics.h"
+#include "st7735_char.h"
+
 
 #define R_BIT_POS	11
 #define G_BIT_POS	6

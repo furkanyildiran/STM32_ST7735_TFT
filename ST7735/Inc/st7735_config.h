@@ -5,6 +5,9 @@ extern "C"{
 #define __ST7735_CONFIG_H__
 #include "stm32f1xx_hal.h"
 
+//if free rtos is used remove comment of below line
+//#define FREE_RTOS_USED 	0
+
 #define CS_PORT		GPIOC
 #define DC_PORT		GPIOC
 #define RST_PORT	GPIOC

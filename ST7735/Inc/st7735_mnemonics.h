@@ -114,6 +114,8 @@ typedef enum{
 	NON_INVERT = INVOFF
 }DisplayInvertSetting_t;
 
+
+
 #endif/*__ST7735_MNEMONICS_H__*/
 #ifdef __cplusplus
 }
